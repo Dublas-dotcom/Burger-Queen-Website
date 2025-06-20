@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { CartContext } from '../context/CartContext';
 import { useNavigate } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
 
 /**
  * Cart page for Burger Queen
@@ -39,12 +40,14 @@ const Cart = () => {
                     onChange={e => updateQuantity(item._id, Number(e.target.value))}
                     className="w-16 border rounded p-1"
                   />
-                  <button
-                    className="text-red-600 hover:underline ml-2"
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    className="ml-2"
                     onClick={() => removeFromCart(item._id)}
                   >
                     Remove
-                  </button>
+                  </Button>
                 </div>
                 <div className="font-bold">${(item.price * item.quantity).toFixed(2)}</div>
               </div>
@@ -53,12 +56,12 @@ const Cart = () => {
           </div>
           {/* Checkout button */}
           <div className="flex justify-end mt-6">
-            <button
-              className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition"
+            <Button
+              className="px-6 py-2 text-lg"
               onClick={() => navigate('/checkout')}
             >
               Proceed to Checkout
-            </button>
+            </Button>
           </div>
         </>
       )}
@@ -66,4 +69,4 @@ const Cart = () => {
   );
 };
 
-export default Cart; 
+export default Cart;

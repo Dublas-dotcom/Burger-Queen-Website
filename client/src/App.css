@@ -1,8 +1,15 @@
+@import "tailwindcss";
+/*
+  Remove restrictive max-width and centering from #root
+  - Allow the app to fill the full viewport width and height
+  - Add comments for every line
+*/
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  /* Remove max-width and margin auto to allow full width */
+  width: 100vw; /* Fill the viewport width */
+  min-height: 100vh; /* Fill the viewport height */
+  padding: 0; /* Remove extra padding */
+  text-align: center; /* Keep text centered if needed */
 }
 
 .logo {

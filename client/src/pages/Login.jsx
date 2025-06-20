@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
 
 /**
  * Login page for Burger Queen
@@ -35,27 +36,33 @@ const Login = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-[#0A192F] via-[#38BDF8]/10 to-[#FBBF24]/30">
       {/* Login form container */}
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-8 rounded shadow-md w-full max-w-md"
+        className="bg-white/80 p-8 rounded-2xl shadow-2xl w-full max-w-md backdrop-blur-md border border-[#FBBF24]/40"
       >
-        <h2 className="text-2xl font-bold mb-6 text-center">Login to Burger Queen</h2>
+        <h2 className="text-3xl font-bold mb-6 text-center text-[#0A192F]">
+          Login to Burger Queen
+        </h2>
         {/* Email input */}
-        <label className="block mb-2 text-sm font-medium">Email</label>
+        <label className="block mb-2 text-sm font-medium text-[#0A192F]">
+          Email
+        </label>
         <input
           type="email"
-          className="w-full p-2 mb-4 border rounded"
+          className="w-full p-3 mb-4 border-2 border-[#FBBF24] rounded-lg focus:ring-2 focus:ring-[#38BDF8] bg-white"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
         />
         {/* Password input */}
-        <label className="block mb-2 text-sm font-medium">Password</label>
+        <label className="block mb-2 text-sm font-medium text-[#0A192F]">
+          Password
+        </label>
         <input
           type="password"
-          className="w-full p-2 mb-4 border rounded"
+          className="w-full p-3 mb-4 border-2 border-[#FBBF24] rounded-lg focus:ring-2 focus:ring-[#38BDF8] bg-white"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
@@ -63,16 +70,16 @@ const Login = () => {
         {/* Error message */}
         {error && <div className="text-red-500 mb-4">{error}</div>}
         {/* Submit button */}
-        <button
-          type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
-        >
+        <Button type="submit" className="w-full text-lg mt-2">
           Login
-        </button>
+        </Button>
         {/* Link to register */}
         <div className="mt-4 text-center">
           <span>Don't have an account? </span>
-          <a href="/register" className="text-blue-600 hover:underline">
+          <a
+            href="/register"
+            className="text-[#38BDF8] hover:underline font-semibold"
+          >
             Register
           </a>
         </div>
@@ -81,4 +88,4 @@ const Login = () => {
   );
 };
 
-export default Login; 
+export default Login;

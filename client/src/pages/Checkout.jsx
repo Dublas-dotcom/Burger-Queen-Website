@@ -3,6 +3,7 @@ import { CartContext } from '../context/CartContext';
 import { useNavigate } from 'react-router-dom';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import { Button } from '@/components/ui/button';
 
 // Load Stripe public key from env (replace with your own or use .env)
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || 'pk_test_123');
@@ -13,7 +14,7 @@ const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || 
 function CheckoutForm() {
   const { cart, clearCart } = useContext(CartContext);
   const [address, setAddress] = useState('');
-  const [payment, setPayment] = useState(''); // Not used, but kept for UI
+
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [cardError, setCardError] = useState('');
@@ -96,33 +97,61 @@ function CheckoutForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-6 bg-white/80 rounded-xl shadow-lg p-8 max-w-lg mx-auto mt-8 backdrop-blur-md">
+      <h2 className="text-2xl font-bold text-center mb-4 text-[#0A192F]">Payment & Delivery</h2>
       <div>
-        <label className="block mb-1 font-medium">Delivery Address</label>
+        <label className="block mb-1 font-medium text-[#0A192F]">Delivery Address</label>
         <input
           type="text"
-          className="w-full border p-2 rounded"
+          className="w-full border-2 border-[#FBBF24] p-3 rounded-lg focus:ring-2 focus:ring-[#38BDF8] bg-white"
           value={address}
           onChange={e => setAddress(e.target.value)}
           required
         />
       </div>
-      {/* Stripe Card Element */}
-      <div>
-        <label className="block mb-1 font-medium">Card Details</label>
-        <div className="border p-2 rounded bg-white">
-          <CardElement options={{ hidePostalCode: true }} />
+      {/* Credit Card UI */}
+      <div className="flex flex-col items-center">
+        <div className="relative w-full max-w-xs mb-4">
+          <div className="bg-gradient-to-tr from-[#0A192F] via-[#38BDF8] to-[#FBBF24] rounded-2xl shadow-xl p-6 text-white flex flex-col gap-4 min-h-[180px]">
+            <div className="flex justify-between items-center">
+              <span className="font-bold tracking-widest text-lg">CREDIT CARD</span>
+              <svg width="40" height="24" viewBox="0 0 40 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="12" fill="#FBBF24" />
+                <circle cx="28" cy="12" r="12" fill="#38BDF8" />
+              </svg>
+            </div>
+            <div className="flex flex-col gap-2 mt-2">
+              <div className="text-xs opacity-80">Card Number</div>
+              <div className="text-lg tracking-widest font-mono">•••• •••• •••• ••••</div>
+            </div>
+            <div className="flex justify-between mt-2">
+              <div>
+                <div className="text-xs opacity-80">Expiry</div>
+                <div className="text-base font-mono">MM/YY</div>
+              </div>
+              <div>
+                <div className="text-xs opacity-80">CVC</div>
+                <div className="text-base font-mono">•••</div>
+              </div>
+            </div>
+          </div>
+          {/* Stripe Card Element overlays the card UI */}
+          <div className="absolute inset-0 flex items-end justify-center p-6 pointer-events-none">
+            <div className="w-full pointer-events-auto">
+              <CardElement options={{ hidePostalCode: true, style: { base: { background: 'transparent', color: '#fff', fontSize: '18px', fontFamily: 'monospace', '::placeholder': { color: '#e0e0e0' } } } }} className="bg-transparent" />
+            </div>
+          </div>
         </div>
         {cardError && <div className="text-red-500 mt-1">{cardError}</div>}
       </div>
       {error && <div className="text-red-500">{error}</div>}
-      <button
+      <Button
         type="submit"
-        className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+        className="w-full text-lg mt-2"
         disabled={loading || cart.length === 0 || !stripe}
       >
         {loading ? 'Processing...' : `Pay $${total.toFixed(2)} & Place Order`}
-      </button>
+      </Button>
     </form>
   );
 }
@@ -139,10 +168,10 @@ const Checkout = () => {
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
   return (
     <div className="p-4 max-w-2xl mx-auto">
-      <h1 className="text-3xl font-bold mb-4">Checkout</h1>
+      <h1 className="text-3xl font-bold mb-4 text-[#0A192F]">Checkout</h1>
       {/* Cart summary */}
-      <div className="mb-6">
-        <h2 className="text-xl font-semibold mb-2">Order Summary</h2>
+      <div className="mb-6 bg-white/80 rounded-xl shadow p-6">
+        <h2 className="text-xl font-semibold mb-2 text-[#0A192F]">Order Summary</h2>
         {cart.length === 0 ? (
           <div>Your cart is empty.</div>
         ) : (
@@ -164,4 +193,4 @@ const Checkout = () => {
   );
 };
 
-export default Checkout; 
+export default Checkout;
